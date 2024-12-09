@@ -39,11 +39,10 @@ class Update(ModalScreen):
             version = url.split("/")[-1]
             match self.compare_versions(f"{XHS.VERSION_MAJOR}.{XHS.VERSION_MINOR}", version, XHS.VERSION_BETA):
                 case 4:
-                    tip = Text(f"{self.message("检测到新版本：{0}.{1}").format(
-                        XHS.VERSION_MAJOR, XHS.VERSION_MINOR)}\n{RELEASES}", style=WARNING)
+                    tip = Text(f"{self.message('检测到新版本：{0}.{1}').format(XHS.VERSION_MAJOR, XHS.VERSION_MINOR)}\n{RELEASES}", style=WARNING)
                 case 3:
                     tip = Text(
-                        f"{self.message("当前版本为开发版, 可更新至正式版")}\n{RELEASES}",
+                        f"{self.message('当前版本为开发版, 可更新至正式版')}\n{RELEASES}",
                         style=WARNING)
                 case 2:
                     tip = Text(

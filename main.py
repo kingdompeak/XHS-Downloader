@@ -62,7 +62,7 @@ async def app():
         await xhs.run_async()
 
 
-async def server(host="0.0.0.0", port=8000, log_level="info", ):
+async def server(host="0.0.0.0", port=8001, log_level="info", ):
     async with XHS(**Settings().run()) as xhs:
         await xhs.run_server(host, port, log_level, )
 
