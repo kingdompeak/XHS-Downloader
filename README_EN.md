@@ -34,8 +34,9 @@
 <li>✅ Customizable file name format</li>
 <li>✅ Support API call functionality</li>
 <li>✅ Support file breakpoint resume download</li>
+<li>✅ Intelligent recognition of works file types</li>
 </ul>
-<ul><b>Script Features</b>
+<ul><a href="#user-scripts"><b>Script Features</b></a>
 <li>✅ Download Xiaohongshu watermark-free works files</li>
 <li>✅ Extract discovery page works links</li>
 <li>✅ Extract account-published works links</li>
@@ -55,9 +56,8 @@
 <a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图EN3.png" alt=""></a>
 <h1>🔗 Supported Links</h1>
 <ul>
-<li><code>https://www.xiaohongshu.com/explore/WorksID</code></li>
 <li><code>https://www.xiaohongshu.com/explore/WorksID?xsec_token=XXX</code></li>
-<li><code>https://www.xiaohongshu.com/discovery/item/WorksID</code></li>
+<li><code>https://www.xiaohongshu.com/discovery/item/WorksID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/ShareCode</code></li>
 <br/>
 <p><b>Supports entering multiple content links at once, separated by spaces; the program will automatically extract valid links without additional processing!</b></p>
@@ -66,7 +66,7 @@
 <p>⭐ It is recommended to use the <a href="https://learn.microsoft.com/en-us/windows/terminal/install">Windows Terminal</a> (default terminal for Windows 11) to run the program for the best display effect!</p>
 <h1>🥣 Usage</h1>
 <p>If you only need to download watermark-free content files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
-<p><del>It is recommended to set the <code>cookie</code> parameter manually; if this parameter is not set, the program functions may not work properly!</del></p>
+<p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
 <h2>🖱 Program Run</h2>
 <p>Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p><strong>Note: The executable file <code>main</code> for Mac OS may need to be launched from the terminal command line; Due to device limitations, the Mac OS executable file has not been tested and its availability cannot be guaranteed!</strong></p>
@@ -83,6 +83,12 @@
 <li>TUI Mode: <code>docker run -it joeanamier/xhs-downloader</code></li>
 <li>API Mode: <code>docker run -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
+<li>Run Container
+<ul>
+<li>Start Container: <code>docker start -i ContainerName/ContainerID</code></li>
+<li>Restart Container: <code>docker restart -i ContainerName/ContainerID</code></li>
+</ul>
+</li>
 </ol>
 <p>When running the project via Docker, the <b>command line call mode</b> is not supported. The <b>clipboard reading</b> and <b>clipboard monitoring</b> functions are unavailable, but pasting content works fine. Please provide feedback if other features are not functioning properly!</p>
 <h2>⌨️ Source Code Run</h2>
@@ -164,7 +170,12 @@ def api_demo():
     response = requests.post(server, json=data)
     print(response.json())
 </pre>
-<h1>🕹 User Script</h1>
+<h1>📜 Others</h1>
+<ul>
+<li>Due to the date information carried in the links of Xiaohongshu works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest Xiaohongshu works links when downloading Xiaohongshu work files</li>
+<li>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</li>
+</ul>
+<h1 id="user-scripts">🕹 User Script</h1>
 <p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a> to experience the project features without needing to download or install anything!</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <p>After successfully installing the script, open the Xiaohongshu page, check the script instructions, and follow the prompts to operate.</p>
@@ -172,6 +183,16 @@ def api_demo():
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
 <p>Note: Using the XHS-Downloader user script to batch extract content links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free content files!</p>
+<h2>📜 Script Instructions</h2>
+<ul>
+<li>When downloading watermark-free Xiaohongshu作品 files, the script will take some time to process the files, please wait a moment and do not click the download button multiple times</li>
+<li>Watermark-free image files are in PNG format; watermark-free video files are larger and may take longer to process, page jumps may cause download failures</li>
+<li>(Disabled)<del>When extracting links of account posts, favorites, likes, and album作品, the script will attempt to automatically scroll the screen until all作品 are loaded, with a scroll detection interval of 2.5 seconds</del></li>
+<li>(Disabled)<del>When extracting discovery作品 links, search作品, and user links, the script will automatically scroll the screen to try to load more content, scrolling the screen up to 10 times</del></li>
+<li>(Disabled)<del>You can modify the scroll detection interval and the number of screen scrolls, changes will take effect immediately; you can also disable the automatic screen scrolling function and manually scroll to load content</del></li>
+<li>Using global proxy tools may cause the script to fail to download files, if there are issues, please try closing the proxy tool, and feedback to the author if necessary</li>
+<li>The XHS-Downloader user script only implements the data collection function that can be obtained visibly, with no paid features or cracking functions</li>
+</ul>
 <h1>💻 Secondary Development</h1>
 <p>If you have other needs, you can perform code calls or modifications based on the comments in <code>main.py</code>!</p>
 <pre>
@@ -185,8 +206,6 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    # sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
-    # sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
     user_agent = ""  # User-Agent
     cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
@@ -202,8 +221,6 @@ async def example():
             work_path=work_path,
             folder_name=folder_name,
             name_format=name_format,
-            # sec_ch_ua=sec_ch_ua,
-            # sec_ch_ua_platform=sec_ch_ua_platform,
             user_agent=user_agent,
             cookie=cookie,
             proxy=proxy,
@@ -260,18 +277,6 @@ async def example():
 <td align="center"><code>publish_time author_nickname title</code></td>
 </tr>
 <tr>
-<td align="center"><del>sec_ch_ua</del>(Deprecated)</td>
-<td align="center">str</td>
-<td align="center">Browser request header Sec-Ch-Ua</td>
-<td align="center">Built-in Chrome Sec-Ch-Ua</td>
-</tr>
-<tr>
-<td align="center"><del>sec_ch_ua_platform</del>(Deprecated)</td>
-<td align="center">str</td>
-<td align="center">Browser request header Sec-Ch-Ua-Platform</td>
-<td align="center">Built-in Chrome Sec-Ch-Ua-Platform</td>
-</tr>
-<tr>
 <td align="center">user_agent</td>
 <td align="center">str</td>
 <td align="center">Browser User Agent</td>
@@ -285,7 +290,7 @@ async def example():
 </tr>
 <tr>
 <td align="center">proxy</td>
-<td align="center">str | dict</td>
+<td align="center">str</td>
 <td align="center">Set program proxy</td>
 <td align="center">null</td>
 </tr>
@@ -316,7 +321,7 @@ async def example():
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">Download format for text and image content files, supported formats: <code>PNG</code>, <code>WEBP</code></td>
+<td align="center">Download format for text and image content files, supported formats: <code>PNG</code>, <code>WEBP</code><br><strong>This parameter affects the API used when downloading images, not the fixed image format!</strong></td>
 <td align="center">PNG</td>
 </tr>
 <tr>
